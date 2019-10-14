@@ -37,10 +37,10 @@ class Ball:
             self.change_y *= -1
 
     def increment_radius(self):
-        self.radius += 1
+        self.radius += 10
 
     def decrement_radius(self):
-        self.radius -= 1
+        self.radius -= 10
 
 class MyGame(arcade.Window):
 
