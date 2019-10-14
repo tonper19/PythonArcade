@@ -41,16 +41,30 @@ class MyGame(arcade.Window):
         super().__init__(width, height, title)
         arcade.set_background_color(arcade.color.ASH_GREY)
         
-        self.ball = Ball(50, 50, 3, 3, 15, arcade.color.AUBURN)
+        self.ball_list = []
+
+        ball = Ball(50, 50, 3, 3, 15, arcade.color.AUBURN)
+        self.ball_list.append(ball)
+
+        ball = Ball(100, 150, 2, 3, 15, arcade.color.PURPLE_MOUNTAIN_MAJESTY)
+        self.ball_list.append(ball)
+        
+        ball = Ball(150, 250, -3, -1, 15, arcade.color.FOREST_GREEN)
+        self.ball_list.append(ball)
+        
         print('MyGame constructor called')
     
     def on_draw(self):
         arcade.start_render()
-        self.ball.draw()
+        
+        for ball in self.ball_list:
+            ball.draw()
+
         # print('MyGame on_draw called')
     
     def update(self, delta_time):
-        self.ball.update()
+        for ball in self.ball_list:
+            ball.update()
         # print(f'MyGame update called. delta_time = {delta_time}')
 
 def main():
