@@ -1,11 +1,14 @@
 
 # copied from: 
 # https://arcade-book.readthedocs.io/en/latest/chapters/15_window_class/window_class.html
+# https://arcade-book.readthedocs.io/en/latest/chapters/16_user_control/user_control.html
+# and later tinkered by Tony Perez 20191015
 
 import arcade
 
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
+MOVEMENT_SPEED = 3
 
 class Ball:
     def __init__(self, position_x, position_y, change_x, change_y, radius, color):
@@ -53,11 +56,11 @@ class MyGame(arcade.Window):
         ball = Ball(50, 50, 3, 3, 15, arcade.color.AUBURN)
         self.ball_list.append(ball)
 
-        ball = Ball(100, 150, 2, 3, 15, arcade.color.PURPLE_MOUNTAIN_MAJESTY)
-        self.ball_list.append(ball)
+        # ball = Ball(100, 150, 2, 3, 15, arcade.color.PURPLE_MOUNTAIN_MAJESTY)
+        # self.ball_list.append(ball)
         
-        ball = Ball(150, 250, -3, -1, 15, arcade.color.FOREST_GREEN)
-        self.ball_list.append(ball)
+        # ball = Ball(150, 250, -3, -1, 15, arcade.color.FOREST_GREEN)
+        # self.ball_list.append(ball)
         
         print('MyGame constructor called')
     
@@ -69,10 +72,10 @@ class MyGame(arcade.Window):
 
         # print('MyGame on_draw called')
     
-    # def update(self, delta_time):
-    #     for ball in self.ball_list:
-    #         ball.update()
-    #     # print(f'MyGame update called. delta_time = {delta_time}')
+    def update(self, delta_time):
+        for ball in self.ball_list:
+            ball.update()
+        # print(f'MyGame update called. delta_time = {delta_time}')
 
     def on_mouse_motion(self, x, y, dx, dy):
         for idx in range(len(self.ball_list)):
@@ -94,6 +97,24 @@ class MyGame(arcade.Window):
         elif button == arcade.MOUSE_BUTTON_RIGHT:
             for ball in self.ball_list:
                 ball.increment_radius()
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.LEFT:
+            self.ball_list[0].change_x =  -MOVEMENT_SPEED
+            print('on_key_press key = LEFT')
+        elif key == arcade.key.RIGHT:
+            self.ball_list[0].change_x =  MOVEMENT_SPEED
+        elif key == arcade.key.UP:
+            self.ball_list[0].change_y =  MOVEMENT_SPEED
+        elif key == arcade.key.DOWN:
+            self.ball_list[0].change_y =  -MOVEMENT_SPEED
+
+    def on_key_release(self, key, modifiers):
+        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
+            self.ball_list[0].change_x =  0
+        elif key == arcade.key.UP or key == arcade.key.DOWN:
+            self.ball_list[0].change_y =  0
+        
 
 def main():
     window = MyGame(640, 480, 'Bouncing Ball')
